@@ -1,0 +1,85 @@
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Agregar Persona</button>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row" [formGroup]="formPerson">
+      <div class="col-12">
+        <div class="w-100 form-group">
+          <label for="name">Nombre</label>
+          <input class="form-control" formControlName="name" placeholder="Nombre" maxlength="7"
+            [ngClass]="{'is-invalid': submitted && f.name.errors }" />
+          <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.name.errors">
+            Este campo es requerido.
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="w-100 form-group">
+          <label for="lastName">Apellido</label>
+          <input class="form-control" formControlName="lastName" placeholder="Apellido" maxlength="7"
+            [ngClass]="{'is-invalid': submitted && f.lastName.errors }" />
+          <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.lastName.errors">
+            Este campo es requerido.
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="w-100 form-group">
+          <label for="identification">Cedula</label>
+          <input class="form-control" formControlName="identification" placeholder="Cedula" maxlength="7"
+            [ngClass]="{'is-invalid': submitted && f.identification.errors }" />
+          <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.identification.errors">
+            <ng-container *ngIf="f.identification.errors?.invalidNumber">
+              Debe escribir un numero de identificación valido.
+            </ng-container>
+            <ng-container *ngIf="f.identification.errors?.exist">
+              La Cedula ya esta registrada.
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="w-100 form-group">
+          <label for="phone">Celular</label>
+          <input class="form-control" formControlName="phone" placeholder="Celular"
+            [ngClass]="{'is-invalid': submitted && f.phone.errors }" />
+          <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.phone.errors">
+            <ng-container *ngIf="f.phone.errors?.invalidNumber">
+              Debe escribir un numero telefonico valido.
+            </ng-container>
+            <ng-container *ngIf="f.phone.errors?.exist">
+              El numero telefonico ya esta registrado.
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="w-100 form-group">
+          <label for="email">Correo electronico</label>
+          <input class="form-control" type="email" formControlName="email" placeholder="Correo electronico."
+            [ngClass]="{'is-invalid': submitted && f.email.errors }" />
+          <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.email.errors">
+            <ng-container *ngIf="f.email.errors?.invalidEmail">
+              Debe escribir un correo valido.
+            </ng-container>
+            <ng-container *ngIf="f.email.errors?.exist">
+              El correo electronico ya esta registrado.
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close({ result:false })">Exit</button>
+    <button type="button" class="btn btn-outline-dark" (click)="validateExit({
+         result: true,
+         close: modal.close 
+      })">Save</button>
+  </div>
+</ng-template>
