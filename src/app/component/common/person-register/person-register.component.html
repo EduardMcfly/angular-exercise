@@ -1,4 +1,4 @@
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Agregar Persona</button>
+<button class="btn btn-outline-primary" (click)="open({isNew:true })">Agregar Persona</button>
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
@@ -11,7 +11,7 @@
       <div class="col-12">
         <div class="w-100 form-group">
           <label for="name">Nombre</label>
-          <input class="form-control" formControlName="name" placeholder="Nombre" maxlength="7"
+          <input class="form-control" formControlName="name" placeholder="Nombre"
             [ngClass]="{'is-invalid': submitted && f.name.errors }" />
           <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.name.errors">
             Este campo es requerido.
@@ -21,7 +21,7 @@
       <div class="col-12">
         <div class="w-100 form-group">
           <label for="lastName">Apellido</label>
-          <input class="form-control" formControlName="lastName" placeholder="Apellido" maxlength="7"
+          <input class="form-control" formControlName="lastName" placeholder="Apellido"
             [ngClass]="{'is-invalid': submitted && f.lastName.errors }" />
           <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.lastName.errors">
             Este campo es requerido.
@@ -31,7 +31,7 @@
       <div class="col-12">
         <div class="w-100 form-group">
           <label for="identification">Cedula</label>
-          <input class="form-control" formControlName="identification" placeholder="Cedula" maxlength="7"
+          <input type="number" class="form-control" formControlName="identification" placeholder="Cedula" maxlength="10"
             [ngClass]="{'is-invalid': submitted && f.identification.errors }" />
           <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.identification.errors">
             <ng-container *ngIf="f.identification.errors?.invalidNumber">
@@ -46,7 +46,7 @@
       <div class="col-12">
         <div class="w-100 form-group">
           <label for="phone">Celular</label>
-          <input class="form-control" formControlName="phone" placeholder="Celular"
+          <input type="number" class="form-control" formControlName="phone" placeholder="Celular" maxlength="10"
             [ngClass]="{'is-invalid': submitted && f.phone.errors }" />
           <div [ngClass]="{'invalid-feedback': true}" *ngIf="submitted && f.phone.errors">
             <ng-container *ngIf="f.phone.errors?.invalidNumber">

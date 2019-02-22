@@ -9,6 +9,7 @@ import { TableComponent } from './pages/table/table.component';
 import { TableAdvancedComponent } from './pages/table-advanced/table-advanced.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PersonRegisterComponent } from './component/common/person-register/person-register.component';
+import { DataTableModule } from './component/common/data-table/data-table.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { PersonRegisterComponent } from './component/common/person-register/pers
   ],
   imports: [
     FormsModule,
+    DataTableModule,
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserModule,

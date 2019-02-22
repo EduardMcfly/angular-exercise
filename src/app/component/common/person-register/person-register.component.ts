@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import {
   FormBuilder,
@@ -11,6 +11,7 @@ import isEmail from 'validator/lib/isEmail';
 import { Person } from '../../../models/common/person';
 import { PersonService } from '../../../service/person/person.service';
 import * as _ from 'lodash';
+
 @Component({
   selector: 'app-person-register',
   templateUrl: './person-register.component.html',
@@ -21,7 +22,13 @@ export class PersonRegisterComponent implements OnInit {
   formPerson: FormGroup;
   submitted = false;
   isNew = true;
+  id: number;
+
   @Output() emitEvent: EventEmitter<any> = new EventEmitter();
+
+  @ViewChild('content')
+  public template: TemplateRef<any>;
+
 
 
   constructor(
@@ -81,18 +88,32 @@ export class PersonRegisterComponent implements OnInit {
     return this.formPerson.controls;
   }
 
-  open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  open({ isNew, inputs, id }: { isNew: boolean, inputs: Person, id: number }) {
+    if (inputs && !isNew) {
+      this.id = id;
+      _.forEach(this.f, (control, key) => {
+        control.setValue(inputs[key]);
+      });
+    }
+
+    this.isNew = isNew;
+    this.modalService.open(this.template, { ariaLabelledBy: 'modal-basic-title' }).result.then(obj => {
+      if (!this.isNew) {
+        _.forEach(this.f, (control, key) => {
+          control.setValue('');
+        });
+      }
+    }).catch(obj => {
+      if (!this.isNew) {
+        _.forEach(this.f, (control, key) => {
+          control.setValue('');
+        });
+      }
+    });
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  response(response) {
+
   }
 
   public validateExit({ close }: any) {
@@ -119,21 +140,33 @@ export class PersonRegisterComponent implements OnInit {
       email: email.value
     } as Person;
     if (this.isNew) {
-      const reponse = this.personService.add(newPerson);
-      const { success } = reponse;
+      const response = this.personService.add(newPerson);
+      const { success } = response;
       if (success) {
-        const { data } = reponse;
+        const { data } = response;
+        this.submitted = false;
         close();
         this.emitEvent.emit({ data });
       } else {
-        const { errors } = reponse;
+        const { errors } = response;
         errors.map(input => {
           formPerson[input].setErrors({ exist: true });
         });
       }
     } else {
-      this.personService
-        .update({ ...newPerson, id: 3434 } as Person);
+      const response = this.personService.update({ ...newPerson, id: this.id });
+      const { success } = response;
+      if (success) {
+        const { data } = response;
+        this.submitted = false;
+        close();
+        this.emitEvent.emit({ data });
+      } else {
+        const { errors } = response;
+        errors.map(input => {
+          formPerson[input].setErrors({ exist: true });
+        });
+      }
     }
   }
 }
