@@ -1,0 +1,30 @@
+<div class="pagination-box">
+  <div class="pagination-range">
+    {{dataTable.translations.paginationRange}}:
+    <span [textContent]="dataTable.page + 1"></span>
+    <span [textContent]="[dataTable.page + dataTable.size , dataTable.totalPages] | min"></span>
+    /
+    <span [textContent]="dataTable.totalPages"></span>
+  </div>
+  <div class="pagination-controllers">
+    <div class="dataTables_paginate paging_bs_normal">
+      <ul class="pagination pagination-sm">
+        <li class="page-item" [ngClass]="{'disabled': dataTable.currentPage == 0}">
+          <a href="javascript:void(0)" class="page-link" (click)="pageFirst()"><i class="{{dataTable.icons.paginationFirst}}"></i></a>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': dataTable.currentPage == 0}">
+          <a href="javascript:void(0)" class="page-link" (click)="pageBack()"><i class="{{dataTable.icons.paginationPrevius}}"></i></a>
+        </li>
+        <li *ngFor='let page of pages' class="page-item" [ngClass]="{'active': page.active}">
+          <a href="javascript:void(0)" class="page-link" (click)="setPageNumber(page.page)">{{page.label}}</a>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': dataTable.currentPage == dataTable.totalPages - 1}">
+          <a href="javascript:void(0)" class="page-link" (click)="pageForward()"><i class="{{dataTable.icons.paginationNext}}"></i></a>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': dataTable.currentPage == dataTable.totalPages - 1}">
+          <a href="javascript:void(0)" class="page-link" (click)="pageLast()"><i class="{{dataTable.icons.paginationLast}}"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
