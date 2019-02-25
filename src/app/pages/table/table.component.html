@@ -1,15 +1,13 @@
 <div class="container">
-  <h1 class="bd-title">Tables</h1>
+  <h1 class="bd-title">Table Basic</h1>
   <div class="container">
-    <div class="row">
+    <div class="row my-2">
       <app-person-register #modalPerson></app-person-register>
-      <span class="flex-fill"></span>
-      <button type="button" class="btn btn-danger" (click)="selectAll()">Eliminar seleccion</button>
     </div>
   </div>
   <div class="table-responsive">
     <data-table [indexColumn]="false" [selectColumn]="true" [items]="items" [totalPages]="totalPages" [size]="size"
-      [pagination]="true" (reload)="reloadItems($event)" (rowClick)="rowClick($event)"
+      [pagination]="false" (reload)="reloadItems($event)" (rowClick)="rowClick($event)"
       (rowDoubleClick)="rowDoubleClick($event)" [rowTooltip]="rowTooltip">
       <ng-template #iconExpand let-expanded="expanded">
         <span class="fa fa-lg fa-plus-circle text-info" *ngIf="!expanded"></span>
@@ -36,18 +34,18 @@
           </div>
         </ng-template>
       </data-table-column>
-      <data-table-column [property]="'id'" [header]="'Id'" [sortable]="true" [visible]="true" [cellColors]="cellColor">
+      <data-table-column [property]="'id'" [header]="'Id'" [sortable]="false" [visible]="true" [cellColors]="cellColor">
       </data-table-column>
-      <data-table-column [property]="'identification'" [header]="'Cedula'" [sortable]="true" [visible]="true">
+      <data-table-column [property]="'identification'" [header]="'Cedula'" [sortable]="false" [visible]="true">
       </data-table-column>
-      <data-table-column [property]="'name'" [header]="'Nombre'" [sortable]="true">
+      <data-table-column [property]="'name'" [header]="'Nombre'" [sortable]="false">
       </data-table-column>
-      <data-table-column [property]="'lastName'" [header]="'Apellido'" [sortable]="true">
+      <data-table-column [property]="'lastName'" [header]="'Apellido'" [sortable]="false">
       </data-table-column>
-      <data-table-column [property]="'phone'" [header]="'Telefono'" [sortable]="true" [resizable]="true"
+      <data-table-column [property]="'phone'" [header]="'Telefono'" [sortable]="false" [resizable]="true"
         [visible]="true">
       </data-table-column>
-      <data-table-column [property]="'email'" [header]="'Email'" [sortable]="true" [visible]="true">
+      <data-table-column [property]="'email'" [header]="'Email'" [sortable]="false" [visible]="true">
       </data-table-column>
     </data-table>
   </div>

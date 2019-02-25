@@ -1,6 +1,6 @@
 import { Injectable, NgZone, InjectionToken, Provider } from '@angular/core';
-import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent, Subscription, BehaviorSubject } from 'rxjs';
-import { map, filter, scan, distinctUntilChanged, tap, switchAll } from 'rxjs/operators';
+import { Observable, fromEvent, Subscription, BehaviorSubject } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
 
 export const defaultBreakpoints: BreakpointConfig = {
@@ -9,6 +9,33 @@ export const defaultBreakpoints: BreakpointConfig = {
   md: { min: 992, max: 1200 },
   lg: { min: 1200 }
 };
+
+const FALLBACK_BREAKPOINT = {
+  min: 0, max: Number.MAX_SAFE_INTEGER
+};
+
+export interface WindowSize {
+  width: number;
+  height: number;
+}
+
+export interface Breakpoint {
+  min?: number;
+  max?: number;
+}
+
+export interface BreakpointEvent {
+  name: string;
+  breakpoint: Breakpoint;
+  size: WindowSize;
+}
+
+export interface BreakpointConfig {
+  [name: string]: Breakpoint;
+}
+
+export const BREAKPOINTS_CONFIG = new InjectionToken<BreakpointConfig>('breakpoints.config');
+
 
 
 @Injectable()
@@ -86,7 +113,7 @@ export class BreakpointsService {
     if (!name) {
       return { name: 'default', breakpoint: FALLBACK_BREAKPOINT, size: this.getWindowSize() };
     } else {
-      return { name: name, breakpoint: this.breakpoints[name], size: this.getWindowSize() };
+      return { name, breakpoint: this.breakpoints[name], size: this.getWindowSize() };
     }
   }
 
@@ -115,31 +142,6 @@ export class BreakpointsService {
   }
 }
 
-export interface WindowSize {
-  width: number;
-  height: number;
-}
-
-export interface Breakpoint {
-  min?: number;
-  max?: number;
-}
-
-export interface BreakpointEvent {
-  name: string;
-  breakpoint: Breakpoint;
-  size: WindowSize;
-}
-
-export interface BreakpointConfig {
-  [name: string]: Breakpoint;
-}
-const FALLBACK_BREAKPOINT = {
-  min: 0, max: Number.MAX_SAFE_INTEGER
-};
-
-export const BREAKPOINTS_CONFIG = new InjectionToken<BreakpointConfig>('breakpoints.config');
-
 export function breakpointsFactory(ngZone: NgZone, breakpoints: BreakpointConfig) {
   return new BreakpointsService(ngZone, breakpoints);
 }
@@ -156,3 +158,4 @@ export function breakpointsProvider(breakpoints: BreakpointConfig = defaultBreak
     }
   ];
 }
+

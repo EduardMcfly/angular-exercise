@@ -88,7 +88,7 @@ export class PersonRegisterComponent implements OnInit {
     return this.formPerson.controls;
   }
 
-  open({ isNew, inputs, id }: { isNew: boolean, inputs: Person, id: number }) {
+  open({ isNew, inputs, id }: { isNew: boolean, inputs?: Person, id?: number }) {
     if (inputs && !isNew) {
       this.id = id;
       _.forEach(this.f, (control, key) => {

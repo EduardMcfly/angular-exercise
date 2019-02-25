@@ -9,6 +9,7 @@ const navList: { title: string; path: string; icon?: string }[] = [
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  isNavbarCollapsed = true;
   title = 'my-project';
   navList = navList;
 }
